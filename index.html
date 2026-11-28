@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>התקנת מסך הבית</title>
+<style>
+  :root { color-scheme: light dark; --bg: #f2f2f7; --card: #fff; --text: #1c1c1e; --dim: #6e6e73; --accent: #0a84ff; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #000; --card: #1c1c1e; --text: #f2f2f7; --dim: #98989f; } }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.5 -apple-system, "Segoe UI", Rubik, Roboto, sans-serif; }
+  main { max-width: 560px; margin: 0 auto; padding: 28px 16px 40px; }
+  h1 { font-size: 28px; margin: 0 0 6px; }
+  .card { background: var(--card); border-radius: 16px; padding: 16px 18px; margin: 16px 0; }
+  ol { margin: 0; padding-inline-start: 20px; } li { margin: 6px 0; }
+  a.btn { display: block; text-align: center; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600;
+          padding: 14px; border-radius: 14px; font-size: 18px; }
+  code { direction: ltr; unicode-bidi: embed; font-size: 18px; font-weight: 600; }
+  p.dim { color: var(--dim); font-size: 15px; }
+  .link { direction: ltr; text-align: center; font: 700 26px/1.3 ui-monospace, Menlo, Consolas, monospace; background: var(--bg);
+          border-radius: 12px; padding: 12px 8px; margin: 10px 0 4px; word-break: break-all; }
+  li b { font-weight: 700; }
+</style>
+</head>
+<body>
+<main>
+  <h1>התקנת מסך הבית</h1>
+  <p class="dim">לטלוויזיות Google TV ו-Android TV (Xiaomi, TCL, Sony, מקרני Formovie ואחרות).</p>
+  <div class="card">
+    <b>שלושה צעדים, בטלוויזיה:</b>
+    <ol>
+      <li>מ-Google Play מתקינים את האפליקציה <b>Downloader</b>.</li>
+      <li>פותחים אותה, מקלידים את הכתובת הזאת ולוחצים <b>Go</b>:
+        <div class="link">0rannnn.github.io/yourowntv</div>
+        ההורדה מתחילה לבד. מאשרים "התקנה" ואז "פתיחה".</li>
+      <li>האפליקציה "התקנת מסך הבית" מסבירה על המסך את השאר, צעד אחרי צעד, ומתקינה הכול לבד.</li>
+    </ol>
+  </div>
+  <a class="btn" id="get" href="tv.apk" download>הורדת המתקין</a>
+  <p class="dim" id="about"></p>
+</main>
+<script>
+  // Opened on a TV (the Downloader app: Android, no touch screen): the download starts at once, nothing to press.
+  if (/Android/i.test(navigator.userAgent) && navigator.maxTouchPoints === 0) location.replace('tv.apk');
+  // The size and version of the installer online (deploy.py writes version.json with every upload).
+  fetch('version.json?t=' + Date.now()).then(r => r.json()).then(v => {
+    const mb = (v.size / 1048576).toFixed(1);
+    document.getElementById('get').textContent = 'הורדת המתקין (' + mb + ' MB)';
+    if (v.version) document.getElementById('about').textContent = 'גרסה ' + v.version + ' · ' + (v.built || '');
+  }).catch(() => {});
+</script>
+</body>
+</html>
